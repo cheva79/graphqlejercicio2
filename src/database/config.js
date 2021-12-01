@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const dbConnection = async () => {
     try {
-        await mongoose.connect('mongodb+srv://admin:PH5Kjj@cluster0.pequx.mongodb.net/test');
+        await mongoose.connect('mongodb+srv://admin:*****@cluster0.pequx.mongodb.net/test');
         console.log('DB Online');
     }
     catch (error) {
