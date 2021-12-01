@@ -2,6 +2,8 @@
 import Curso from "../model/Curso";
 import Usuario from "../model/Usuario";
 import bcryp from "bcrypt";
+import { generarJwt } from "../helpers/jwt";
+
 
 export const resolvers = {
   Query: {
@@ -19,7 +21,8 @@ export const resolvers = {
       }
       const validarPassword = bcryp.compareSync(password, usuario.password);
       if (validarPassword) {
-        return "Exitoso";
+        const token = await generarJwt(usuario.id, usuario.nombre)
+        return token;
       } else {
         return "Usuario o Contraseña incorrecta";
       }

@@ -4,6 +4,7 @@ import schema from "./graphql/schema";
 import dbConnection from "./database/config";
 
 
+
 const app = express();
 
 dbConnection();
