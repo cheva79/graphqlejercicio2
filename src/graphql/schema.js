@@ -4,6 +4,7 @@ import { resolvers } from "./resolvers";
 const typeDefs = `
     type Query {
         Cursos: [Curso],
+        Usuarios: [Usuario],
         Login(email: String!, password: String!): String    
     },
 

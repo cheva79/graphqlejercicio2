@@ -1,21 +1,28 @@
 import express from "express";
+import dotenv from 'dotenv';
 import { graphqlHTTP } from "express-graphql";
 import schema from "./graphql/schema";
 import dbConnection from "./database/config";
+import { validarJwt } from "./middleware/validar-jwt";
 
-
+dotenv.config();
 
 const app = express();
 
-dbConnection();
+dbConnection(); 
 
-app.use("/graphql", graphqlHTTP({
+app.use(validarJwt);
+
+app.use("/graphql", graphqlHTTP((req) => ({
     graphiql : true,
-    schema : schema
-}) );
+    schema : schema,
+    context : {
+        user : req.user
+    } 
+})));
 
-app.listen(4000, () => {
-    console.log('Servidor conectado al puerto 4000');
+app.listen(process.env.PORT, () => {
+    console.log(`Servidor conectado al puerto ${process.env.PORT}`);
 });
 
 

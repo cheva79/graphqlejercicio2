@@ -7,21 +7,43 @@ import { generarJwt } from "../helpers/jwt";
 
 export const resolvers = {
   Query: {
-    Cursos() {
-      //Importacion de data/curso
-      return Curso.find();
+    Cursos(__, args, context) {
+        console.log("Este es el context: ",context);
+        if(context.user.auth){
+            return Curso.find();
+        }
+        else{
+            return null;
+        }
     },
+    Usuarios(__, args, context) {
+      console.log("Este es el context: ",context);
+      if(context.user.auth){
+          return Usuario.find();
+      }
+      else{
+          return null;
+      }
+  },
+  //   Cursos() {
+  //     return Curso.find();
+  // },
+      //Importacion de data/curso
+      // return Curso.find();
     async Login(__, { email, password }) {
-        
       const usuario = await Usuario.findOne({ 
           email 
         });
+        console.log(usuario)
+        console.log("args: ", email, password )
+        
       if (!usuario) {
         return "Usuario o Contraseña incorrecta";
       }
       const validarPassword = bcryp.compareSync(password, usuario.password);
       if (validarPassword) {
-        const token = await generarJwt(usuario.id, usuario.nombre)
+        const token = await generarJwt(usuario.id, usuario.name)
+        console.log("El token es: ",token)
         return token;
       } else {
         return "Usuario o Contraseña incorrecta";
