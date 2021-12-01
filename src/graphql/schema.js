@@ -3,26 +3,46 @@ import { resolvers } from "./resolvers";
 
 const typeDefs = `
     type Query {
-        hola(nombre: String!): String,
-        Cursos: [Curso]    
+        Cursos: [Curso],
+        Login(email: String!, password: String!): String    
     },
 
     type Mutation{
-        agregarCurso(input: CursoInput):Curso
+        agregarCurso(curso: CursoInput): Curso,
+        agregarUsuario(usuario: usuarioInput): Usuario
     },
 
+    type Usuario {
+        id:ID,
+        name: String,
+        email: String,
+        password: String
+    },
+    input usuarioInput {
+        name: String,
+        email: String,
+        password: String
+      },
+
     type Curso {
-        id: ID,
+      id: ID,
       name: String,
-      lenguage: String,
+      lenguages: [Lenguage],
       date: String,
+    },
+
+    type Lenguage {
+        lenguage: String
     },
 
     input CursoInput {
-        id: ID,
       name: String,
-      lenguage: String,
+      lenguages:[lenguageInput],
       date: String,
+    },
+
+    input lenguageInput {
+        Lenguage:String
     }
 `;
 
